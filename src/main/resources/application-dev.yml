@@ -1,0 +1,33 @@
+currency-management:
+  api-url: https://api.currencyapi.com/v3
+  api-key: cur_live_35qmC69OMju19IrcYPya0gDXebK3hN6FJFBlXvYE
+  api-call-limit: 10
+  cache-name: currencies
+  cache-ttl: 100000
+server:
+  port: 8080
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  data:
+    mongodb:
+      authentication-database: admin
+      username: devroot
+      password: qwerty
+      database: currencies
+      port: 27017
+      host: localhost
+resilience4j:
+  ratelimiter:
+    instances:
+      api-get:
+        limit-for-period: 10
+        limit-refresh-period: 1m
+        timeout-duration: 10s
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+          - prometheus
